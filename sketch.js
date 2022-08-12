@@ -5,6 +5,7 @@ class Ball {
     pos = createVector(0, 0);
     rad = 30;
     col = "";
+    dir = random([-1, 1]);
     x;
     y;
     constructor(x, y, rad, col) {
@@ -59,8 +60,11 @@ function draw() {
 function moveBalls(arr, rate=0.5) {
     for (let i = 0; i < arr.length; i++) {
         arr[i].y -= random() * rate;
+        arr[i].x += random() * rate/2 * arr[i].dir;
         if (arr[i].y < -80)
             arr[i].y = h + 80
+        if (arr[i].x < -80 || arr[i].x > w + 80)
+            arr[i].dir = -arr[i].dir
     }
 }
 
