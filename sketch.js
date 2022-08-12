@@ -1,5 +1,5 @@
-const w = 600;
-const h = 600;
+let w;
+let h;
 
 class Ball {
     pos = createVector(0, 0);
@@ -7,6 +7,7 @@ class Ball {
     col = "";
     dirx = random([-1, 1]);
     diry = random([-1, 1]);
+    seed = random();
     x;
     y;
     constructor(x, y, rad, col) {
@@ -20,14 +21,21 @@ class Ball {
 let balls = [];
 let rate;
 let bounce;
+let cnv;
 
 function setup() {
-    createCanvas(w, h);
-    // noLoop();
+    w = displayWidth / 2;
+    h = displayHeight / 2;
+    cnv = createCanvas(w, h);
+    let container = createDiv().class('container');
+    let p = createP("enter to clear, drag mouse to draw, 'f' for fullscreen").parent(container);
+    let div = createDiv().class('slider').parent(container);
     noStroke();
     pixelDensity(1);
-    rate = createSlider(0, 10, 0.5, 0.1);
-    bounce = createCheckbox(' bounce', false);
+    rate = createSlider(-5, 10, 0.5, 0.1).parent(div);
+    let p2 = createP('speed').parent(div);
+    bounce = createCheckbox(' bounce', false).parent(container);
+    let p3 = createP('created by daniel harrington').parent(container);
     balls = balls.concat(createBalls(150, 'red'))
     balls = balls.concat(createBalls(100, 'yellow'))
     balls = balls.concat(createBalls(40, 'black'))
@@ -62,8 +70,21 @@ function draw() {
 }
 
 function keyPressed() {
-    if (keyCode === ENTER)
+    if (keyCode === ENTER) {
         balls = [];
+    } else if (key === 'f') {
+        let fs = fullscreen();
+        if (fs) {
+            w = displayWidth / 2;
+            h = displayHeight / 2;
+            resizeCanvas(w, h);
+        } else {
+            w = displayWidth;
+            h = displayHeight;
+            resizeCanvas(w, h);
+        }
+        fullscreen(!fs);
+    }
 }
 
 function mouseDragged() {
@@ -77,8 +98,8 @@ function moveBalls(arr, rate=0.5) {
     let threshhold = 60;
 
     for (let i = 0; i < arr.length; i++) {
-        arr[i].y += random() * rate * arr[i].diry;
-        arr[i].x += random() * rate/2 * arr[i].dirx;
+        arr[i].y += arr[i].seed * rate * arr[i].diry;
+        arr[i].x += arr[i].seed * rate * arr[i].dirx;
         
         if (bounce.checked()) {
             if (arr[i].y > h + arr[i].rad || arr[i].y < -arr[i].rad)
