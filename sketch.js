@@ -5,7 +5,8 @@ class Ball {
     pos = createVector(0, 0);
     rad = 30;
     col = "";
-    dir = random([-1, 1]);
+    dirx = random([-1, 1]);
+    diry = random([-1, 1]);
     x;
     y;
     constructor(x, y, rad, col) {
@@ -18,16 +19,19 @@ class Ball {
 
 let balls = [];
 let rate;
+let bounce;
 
 function setup() {
     createCanvas(w, h);
     // noLoop();
     noStroke();
     pixelDensity(1);
-    rate = createSlider(0, 3, 0.5, 0.1);
+    rate = createSlider(0, 10, 0.5, 0.1);
+    bounce = createCheckbox(' bounce', false);
     balls = balls.concat(createBalls(150, 'red'))
     balls = balls.concat(createBalls(100, 'yellow'))
     balls = balls.concat(createBalls(40, 'black'))
+    textSize(20);
 }
 
 function draw() {
@@ -57,14 +61,36 @@ function draw() {
     updatePixels();
 }
 
+function keyPressed() {
+    if (keyCode === ENTER)
+        balls = [];
+}
+
+function mouseDragged() {
+    if (mouseX < w && mouseY < h)
+        balls.push(
+            new Ball(mouseX, mouseY, random(15, 100), random(['red', 'yellow', 'black']))
+        );
+}
+
 function moveBalls(arr, rate=0.5) {
+    let threshhold = 60;
+
     for (let i = 0; i < arr.length; i++) {
-        arr[i].y -= random() * rate;
-        arr[i].x += random() * rate/2 * arr[i].dir;
-        if (arr[i].y < -80)
-            arr[i].y = h + 80
-        if (arr[i].x < -80 || arr[i].x > w + 80)
-            arr[i].dir = -arr[i].dir
+        arr[i].y += random() * rate * arr[i].diry;
+        arr[i].x += random() * rate/2 * arr[i].dirx;
+        
+        if (bounce.checked()) {
+            if (arr[i].y > h + arr[i].rad || arr[i].y < -arr[i].rad)
+                arr[i].diry = -arr[i].diry;
+            if (arr[i].x < -arr[i].rad || arr[i].x > w + arr[i].rad)
+                arr[i].dirx = -arr[i].dirx;
+        } else {
+            if (arr[i].y > h + threshhold || arr[i].y < -threshhold)
+                arr[i].y = h + threshhold - arr[i].y
+            if (arr[i].x < -threshhold || arr[i].x > w + threshhold)
+                arr[i].x = w + threshhold - arr[i].x
+        }
     }
 }
 
