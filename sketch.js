@@ -36,6 +36,7 @@ function setup() {
     let p2 = createP('speed').parent(div);
     bounce = createCheckbox(' bounce', false).parent(container);
     let p3 = createP('created by daniel harrington').parent(container);
+    let a = createA('https://github.com/dmharrington03/kirbykrackle', 'visit on github').parent(container);
     balls = balls.concat(createBalls(150, 'red'))
     balls = balls.concat(createBalls(100, 'yellow'))
     balls = balls.concat(createBalls(40, 'black'))
