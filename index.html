@@ -9,8 +9,31 @@
 </head>
 
 <body>
-	<script src="sketch.js"></script>
-  <p>Enter to clear, drag mouse to draw</p>
+	<style>
+		body {
+			margin: 0 auto;
+			font-family: 'Courier New', Courier, monospace;
+			overflow-x: hidden;
+		}
+		@media all and (display-mode: fullscreen) {
+			body {
+				overflow-y: hidden;
+			}
+		}
+		p {
+			margin: 0;
+		}
+		.container {
+			margin: 10px;
+			height: 150px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+		
+	</style>
+	<script defer src="sketch.js"></script>
+  <!-- <p>Enter to clear, drag mouse to draw</p> -->
 </body>
 
 </html>
