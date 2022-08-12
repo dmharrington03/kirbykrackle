@@ -16,12 +16,14 @@ class Ball {
 }
 
 let balls = [];
+let rate;
 
 function setup() {
     createCanvas(w, h);
     // noLoop();
     noStroke();
     pixelDensity(1);
+    rate = createSlider(0, 3, 0.5, 0.1);
     balls = balls.concat(createBalls(150, 'red'))
     balls = balls.concat(createBalls(100, 'yellow'))
     balls = balls.concat(createBalls(40, 'black'))
@@ -30,9 +32,10 @@ function setup() {
 function draw() {
     background(0);
     let scale = 60;
+    let speed = rate.value();
     
     
-    moveBalls(balls);
+    moveBalls(balls, speed);
     drawBalls(balls);
     
 
@@ -53,9 +56,9 @@ function draw() {
     updatePixels();
 }
 
-function moveBalls(arr) {
+function moveBalls(arr, rate=0.5) {
     for (let i = 0; i < arr.length; i++) {
-        arr[i].y -= random() * 0.5;
+        arr[i].y -= random() * rate;
         if (arr[i].y < -80)
             arr[i].y = h + 80
     }
