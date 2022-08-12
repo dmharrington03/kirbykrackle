@@ -2,6 +2,8 @@
 
 *Made with p5.JS*
 
+Live demo [here](https://editor.p5js.org/dmharrington03/sketches/3cGDjpopl).
+
 The Kirby Krackle is an stylistic technique named after comic illustrator and artist Jack Kirby where closely-grouped colored dots are used to depict explosions, energy fields, or stylized shading.
 
 Examples: 
